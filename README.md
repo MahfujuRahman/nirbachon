@@ -1,11 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Nirbachon - Voting Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel-based voting management system with separate admin and agent panels, featuring live result tracking and responsive design.
+
+## Features
+
+### Admin Panel
+- **Dashboard**: Overview of system statistics
+- **Ashon Management**: Create and manage election events
+- **Centar Management**: 
+  - Manual creation of voting centers
+  - Bulk import via CSV/Excel files
+- **Marka Management**: 
+  - Create political parties/candidates
+  - Upload symbols (automatically resized to 200x200px)
+- **Agent Management**: Create and manage agent accounts
+
+### Agent Panel
+- **Result Upload**: Submit voting results with multiple images
+- **Result Management**: Edit and update submitted results
+- **Image Gallery**: Manage uploaded result images
+
+### Public Frontend
+- **Live Results**: Real-time voting results display
+- **Filter by Ashon**: View results for specific elections
+- **Auto-refresh**: Page refreshes every 30 seconds
+- **Responsive Design**: Works on all devices
+
+## Installation
+
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- Node.js & NPM
+- MySQL/MariaDB database
+
+### Setup Steps
+
+1. **Clone and Install Dependencies**
+```bash
+composer install
+npm install
+```
+
+2. **Environment Configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+3. **Configure Database**
+Edit `.env` file:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nirbachon
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+4. **Run Migrations and Seed Database**
+```bash
+php artisan migrate:fresh --seed
+```
+
+5. **Create Storage Link**
+```bash
+php artisan storage:link
+```
+
+6. **Build Assets**
+```bash
+npm run build
+```
+
+7. **Start Development Server**
+```bash
+php artisan serve
+```
+
+## Default Credentials
+
+**Admin Login:**
+- Email: `admin@nirbachon.com`
+- Password: `password`
+
+## Usage Guide
+
+### For Administrators
+
+1. **Login** at `/login` with admin credentials
+2. **Create Ashon** (Election Event)
+3. **Create Centars** (Voting Centers):
+   - Manual: One by one through the form
+   - Bulk Import: Upload CSV/Excel file
+   
+   CSV Format:
+   ```
+   Ashon ID,Centar Title,Address
+   1,Dhaka Center 1,123 Main Street
+   1,Dhaka Center 2,456 Park Avenue
+   ```
+
+4. **Create Markas** (Political Parties):
+   - Upload party symbol image (auto-resized to 200x200px)
+
+5. **Create Agents**:
+   - Assign centar and marka to agents
+   - Agents will use these credentials to upload results
+
+### For Agents
+
+1. **Login** at `/login` with agent credentials
+2. **Upload Results**:
+   - Select Ashon and Centar
+   - Enter total votes
+   - Upload supporting images (optional)
+3. **Manage Results**: Edit previously submitted results
+
+### Public Access
+
+Visit the homepage to view live voting results:
+- Results automatically update every 30 seconds
+- Filter by specific Ashon (election)
+- View vote counts and percentages
+
+## Technologies Used
+
+- **Backend**: Laravel 11
+- **Frontend**: Tailwind CSS
+- **Database**: MySQL
+- **File Handling**: 
+  - Laravel Excel (CSV/Excel import)
+  - Intervention Image (image resizing)
+
+## File Structure
+
+```
+app/
+├── Http/Controllers/
+│   ├── Auth/          # Authentication
+│   ├── Admin/         # Admin panel controllers
+│   └── Agent/         # Agent panel controllers
+├── Models/            # Eloquent models
+├── Enums/             # Role enums
+└── Imports/           # Excel import classes
+
+resources/views/
+├── layouts/           # Layout templates
+├── auth/              # Login views
+├── admin/             # Admin panel views
+├── agent/             # Agent panel views
+└── home.blade.php     # Public results page
+
+routes/
+└── web.php            # Application routes
+```
+
+## Security
+
+- Password hashing using bcrypt
+- CSRF protection on all forms
+- Role-based access control (admin/agent)
+- File upload validation
+- SQL injection protection via Eloquent ORM
+
+Built with ❤️ using Laravel & Tailwind CSS
 
 ## About Laravel
 

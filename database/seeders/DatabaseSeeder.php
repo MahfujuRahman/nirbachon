@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Ashon;
+use App\Enums\Roles;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +18,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create default admin user
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@nirbachon.com',
+            'password' => Hash::make('password'),
+            'role' => Roles::ADMIN,
         ]);
+
+        // Create a default ashon
+        Ashon::create([
+            'title' => 'General Election 2026',
+        ]);
+
+        $this->command->info('Default admin created: admin@nirbachon.com / password');
     }
 }

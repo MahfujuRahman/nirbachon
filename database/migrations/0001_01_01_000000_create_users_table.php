@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('role')->default(Roles::AGENT->value);
             $table->string('image')->nullable();
             $table->string('phone')->nullable();
-            $table->foreignId('centar_id')->nullable()->constrained('centars')->onDelete('set null');
-            $table->foreignId('marka_id')->nullable()->constrained('markas')->onDelete('set null');
+            $table->unsignedBigInteger('centar_id')->nullable();
+            $table->unsignedBigInteger('marka_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
