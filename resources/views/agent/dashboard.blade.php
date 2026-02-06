@@ -9,13 +9,22 @@
             <h2 class="text-3xl font-bold text-gray-800">My Voting Results</h2>
             <p class="text-gray-600 mt-1">Manage your uploaded voting results</p>
         </div>
-        <a href="{{ route('agent.results.create') }}"
-           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            Upload New Result
-        </a>
+        <div class="flex gap-3">
+            <a href="{{ route('agent.other-images.create') }}"
+               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Upload Other Images
+            </a>
+            <a href="{{ route('agent.results.create') }}"
+               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Upload New Result
+            </a>
+        </div>
     </div>
 
     @forelse($results as $result)
@@ -118,6 +127,84 @@
     @if($results->hasPages())
         <div class="mt-8 flex justify-center">
             {{ $results->links() }}
+        </div>
+    @endif
+
+    <!-- Others Section -->
+    @if($otherImages->count() > 0)
+        <div class="mt-12">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <svg class="w-7 h-7 mr-3 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Others
+                    </h3>
+                    <p class="text-gray-600 mt-1">Additional images not linked to specific results</p>
+                </div>
+                <span class="px-4 py-2 bg-teal-100 text-teal-700 font-semibold rounded-full text-sm">
+                    {{ $otherImages->count() }} {{ $otherImages->count() === 1 ? 'Image' : 'Images' }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @foreach($otherImages as $image)
+                    <div class="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition group">
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $image->image) }}"
+                                 alt="Other Image"
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-30 transition"></div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-start">
+                                    <svg class="w-4 h-4 text-teal-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs text-gray-500">Centar</p>
+                                        <p class="font-semibold text-gray-900 truncate">{{ $image->centar->title }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <svg class="w-4 h-4 text-teal-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs text-gray-500">Marka</p>
+                                        <p class="font-semibold text-gray-900 truncate">{{ $image->marka->title }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <svg class="w-4 h-4 text-teal-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs text-gray-500">Uploaded</p>
+                                        <p class="font-semibold text-gray-900">{{ $image->created_at->format('M d, Y') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-200">
+                                <form action="{{ route('agent.other-images.destroy', $image) }}" method="POST"
+                                      onsubmit="return confirm('Are you sure you want to delete this image?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="w-full inline-flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     @endif
 </div>

@@ -12,6 +12,13 @@ class DashboardController extends Controller
         $agent = auth()->user();
         $results = $agent->results()->with(['centar', 'marka', 'images'])->latest()->paginate(10);
 
-        return view('agent.dashboard', compact('results'));
+        // Get other images (images without result_id)
+        $otherImages = \App\Models\ResultImage::whereNull('result_id')
+            ->where('user_id', $agent->id)
+            ->with(['ashon', 'centar', 'marka'])
+            ->latest()
+            ->get();
+
+        return view('agent.dashboard', compact('results', 'otherImages'));
     }
 }

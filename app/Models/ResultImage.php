@@ -20,4 +20,24 @@ class ResultImage extends Model
     {
         return $this->belongsTo(Result::class);
     }
+
+    public function ashon(): BelongsTo
+    {
+        return $this->belongsTo(Ashon::class);
+    }
+
+    public function centar(): BelongsTo
+    {
+        return $this->belongsTo(Centars::class, 'centar_id');
+    }
+
+    public function marka(): BelongsTo
+    {
+        return $this->belongsTo(Marka::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

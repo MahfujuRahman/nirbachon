@@ -152,4 +152,59 @@ class ResultController extends Controller
 
         return back()->with('success', 'Image deleted successfully.');
     }
+
+    public function createOtherImages()
+    {
+        $agent = auth()->user();
+        $ashons = Ashon::all();
+        $centars = Centars::where('id', auth()->user()->centar_id)->get();
+        $markas = Marka::all();
+
+        return view('agent.other-images.create', compact('ashons', 'centars', 'markas', 'agent'));
+    }
+
+    public function storeOtherImages(Request $request)
+    {
+        $request->validate([
+            'centar_id' => 'required|exists:centars,id',
+            'marka_id' => 'required|exists:markas,id',
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ]);
+
+        $agent = auth()->user();
+        $imageCount = 0;
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = $image->storeAs('other-images', $filename, 'public');
+
+                ResultImage::create([
+                    'result_id' => null,  // No result_id for other images
+                    'ashon_id' => 1,
+                    'centar_id' => $request->centar_id,
+                    'marka_id' => $request->marka_id,
+                    'user_id' => $agent->id,
+                    'image' => $path,
+                ]);
+                $imageCount++;
+            }
+        }
+
+        return redirect()->route('agent.dashboard')->with('success', "Successfully uploaded {$imageCount} image(s) to Others section.");
+    }
+
+    public function deleteOtherImage(ResultImage $image)
+    {
+        // Only allow deleting own images and ensure it's an "other" image (no result_id)
+        if ($image->user_id !== auth()->id() || $image->result_id !== null) {
+            abort(403);
+        }
+
+        Storage::disk('public')->delete($image->image);
+        $image->delete();
+
+        return back()->with('success', 'Image deleted successfully.');
+    }
 }

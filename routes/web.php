@@ -54,4 +54,9 @@ Route::middleware(['auth', 'agent'])->prefix('agent')->name('agent.')->group(fun
     Route::get('results/{result}/edit', [ResultController::class, 'edit'])->name('results.edit');
     Route::put('results/{result}', [ResultController::class, 'update'])->name('results.update');
     Route::delete('result-images/{image}', [ResultController::class, 'deleteImage'])->name('result-images.destroy');
+
+    // Other Images (without result_id)
+    Route::get('other-images/create', [ResultController::class, 'createOtherImages'])->name('other-images.create');
+    Route::post('other-images', [ResultController::class, 'storeOtherImages'])->name('other-images.store');
+    Route::delete('other-images/{image}', [ResultController::class, 'deleteOtherImage'])->name('other-images.destroy');
 });
