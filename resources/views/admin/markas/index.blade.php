@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="bg-white shadow-lg rounded-lg">
-    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
         <h3 class="text-lg font-semibold">Markas List</h3>
-        <a href="{{ route('admin.markas.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
+        <a href="{{ route('admin.markas.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm md:text-base w-full sm:w-auto text-center">
             Add New Marka
         </a>
     </div>
-    <div class="p-6">
+    <div class="p-4 md:p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @forelse($markas as $marka)
                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition">

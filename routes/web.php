@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AshonController;
 use App\Http\Controllers\Admin\CentarController;
 use App\Http\Controllers\Admin\MarkaController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\ResultController;
 
@@ -36,6 +37,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Users (Agents)
     Route::resource('users', UserController::class);
+
+    // Results Management
+    Route::get('results', [AdminResultController::class, 'index'])->name('results.index');
+    Route::get('results/{result}', [AdminResultController::class, 'show'])->name('results.show');
+    Route::delete('results/{result}', [AdminResultController::class, 'destroy'])->name('results.destroy');
 });
 
 // Agent routes

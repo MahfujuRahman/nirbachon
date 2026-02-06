@@ -4,14 +4,45 @@
 
 @section('content')
 <div class="bg-white shadow-lg rounded-lg">
-    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
         <h3 class="text-lg font-semibold">Agents List</h3>
-        <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
+        <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm md:text-base w-full sm:w-auto text-center">
             Add New Agent
         </a>
     </div>
-    <div class="p-6">
-        <div class="overflow-x-auto">
+    <div class="p-4 md:p-6">
+        <!-- Mobile View -->
+        <div class="block lg:hidden space-y-4">
+            @forelse($users as $user)
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="mb-2">
+                        <p class="text-xs text-gray-500">ID: {{ $user->id }}</p>
+                        <p class="font-semibold text-gray-900">{{ $user->name }}</p>
+                        <p class="text-sm text-gray-600 mt-1">{{ $user->email }}</p>
+                        <p class="text-xs text-gray-500 mt-1">Phone: {{ $user->phone ?? 'N/A' }}</p>
+                        <p class="text-xs text-blue-600 mt-1">Centar: {{ $user->centar?->title ?? 'N/A' }}</p>
+                        <p class="text-xs text-green-600">Marka: {{ $user->marka?->title ?? 'N/A' }}</p>
+                    </div>
+                    <div class="flex space-x-2 mt-3">
+                        <a href="{{ route('admin.users.edit', $user) }}" class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm">
+                            Edit
+                        </a>
+                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="flex-1" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <p class="text-center text-gray-500 py-8">No agents found.</p>
+            @endforelse
+        </div>
+
+        <!-- Desktop View -->
+        <div class="hidden lg:block overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>

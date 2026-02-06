@@ -53,6 +53,15 @@
             </div>
 
             <div class="mb-4">
+                <label for="candidate_name" class="block text-sm font-medium text-gray-700 mb-2">Candidate Name (Optional)</label>
+                <input type="text" name="candidate_name" id="candidate_name" value="{{ old('candidate_name') }}" maxlength="255"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('candidate_name') border-red-500 @enderror">
+                @error('candidate_name')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
                 <label for="total_vote" class="block text-sm font-medium text-gray-700 mb-2">Total Votes</label>
                 <input type="number" name="total_vote" id="total_vote" value="{{ old('total_vote') }}" required min="0" step="0.01"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('total_vote') border-red-500 @enderror">
@@ -62,17 +71,20 @@
             </div>
 
             <div class="mb-4">
-                <label for="images" class="block text-sm font-medium text-gray-700 mb-2">Upload Images (Optional)</label>
+                <label for="images" class="block text-sm font-medium text-gray-700 mb-2">
+                    Upload Result Images (Optional - Multiple allowed)
+                </label>
                 <input type="file" name="images[]" id="images" accept="image/*" multiple
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('images.*') border-red-500 @enderror">
                 @error('images.*')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
-                <p class="mt-1 text-xs text-gray-500">You can select multiple images. Max 5MB per image.</p>
+                <p class="mt-1 text-xs text-gray-500">You can select multiple images. Max 5MB per image. Supported formats: JPEG, PNG, JPG, GIF</p>
+                <div id="imagePreview" class="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2"></div>
             </div>
 
-            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                <a href="{{ route('agent.dashboard') }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-200">
+                <a href="{{ route('agent.dashboard') }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-center">
                     Cancel
                 </a>
                 <button type="submit" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
@@ -82,4 +94,32 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Image preview
+    document.getElementById('images').addEventListener('change', function(e) {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+
+        if (this.files) {
+            Array.from(this.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="w-full h-24 object-cover rounded border-2 border-gray-300">
+                            <div class="absolute top-1 right-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                                ${(file.size / 1024).toFixed(0)}KB
+                            </div>
+                        `;
+                        preview.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 @endsection

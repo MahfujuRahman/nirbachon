@@ -63,8 +63,7 @@ class CentarController extends Controller
 
     public function importForm()
     {
-        $ashons = Ashon::all();
-        return view('admin.centars.import', compact('ashons'));
+        return view('admin.centars.import');
     }
 
     public function import(Request $request)
@@ -74,8 +73,13 @@ class CentarController extends Controller
         ]);
 
         try {
+            $beforeCount = Centars::count();
             Excel::import(new CentarsImport, $request->file('file'));
-            return redirect()->route('admin.centars.index')->with('success', 'Centars imported successfully.');
+            $afterCount = Centars::count();
+            $imported = $afterCount - $beforeCount;
+
+            return redirect()->route('admin.centars.index')
+                ->with('success', "Successfully imported {$imported} new centars. Duplicates were skipped.");
         } catch (\Exception $e) {
             return back()->with('error', 'Error importing centars: ' . $e->getMessage());
         }
