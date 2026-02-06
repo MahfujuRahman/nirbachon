@@ -7,6 +7,7 @@ use App\Models\Result;
 use App\Models\ResultImage;
 use App\Models\Ashon;
 use App\Models\Centars;
+use App\Models\Marka;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,17 +16,16 @@ class ResultController extends Controller
     public function create()
     {
         $agent = auth()->user();
-        $ashons = Ashon::all();
-        $centars = Centars::all();
-
-        return view('agent.results.create', compact('ashons', 'centars', 'agent'));
+        $centars = Centars::where('id', auth()->user()->centar_id)->get();
+        $markas = Marka::get();
+        return view('agent.results.create', compact('centars', 'agent', 'markas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'ashon_id' => 'required|exists:ashons,id',
             'centar_id' => 'required|exists:centars,id',
+            'marka_id' => 'required|exists:markas,id',
             'total_vote' => 'required|numeric|min:0',
             'candidate_name' => 'nullable|string|max:255',
             'images' => 'nullable|array',
@@ -34,14 +34,19 @@ class ResultController extends Controller
 
         $agent = auth()->user();
 
-        if (!$agent->marka_id) {
-            return redirect()->back()->with('error', 'You do not have a marka assigned. Please contact admin.');
+        $existingResult = Result::where('user_id', $agent->id)
+            ->where('centar_id', $request->centar_id)
+            ->where('marka_id', $request->marka_id)
+            ->first();
+
+        if ($existingResult) {
+            return redirect()->back()->withErrors(['error' => 'You have already submitted a result for this centar and marka.']);
         }
 
         $result = Result::create([
-            'ashon_id' => $request->ashon_id,
+            'ashon_id' => 1,
             'centar_id' => $request->centar_id,
-            'marka_id' => $agent->marka_id,
+            'marka_id' => $request->marka_id,
             'user_id' => $agent->id,
             'total_vote' => $request->total_vote,
             'candidate_name' => $request->candidate_name,
@@ -69,10 +74,9 @@ class ResultController extends Controller
             abort(403);
         }
 
-        $ashons = Ashon::all();
-        $centars = Centars::all();
-
-        return view('agent.results.edit', compact('result', 'ashons', 'centars'));
+        $centars = Centars::where('id', auth()->user()->centar_id)->get();
+        $markas = Marka::get();
+        return view('agent.results.edit', compact('result', 'centars', 'markas'));
     }
 
     public function update(Request $request, Result $result)
@@ -90,17 +94,17 @@ class ResultController extends Controller
         ]);
 
         $request->validate([
-            'ashon_id' => 'required|exists:ashons,id',
             'centar_id' => 'required|exists:centars,id',
+            'marka_id' => 'required|exists:markas,id',
             'total_vote' => 'required|numeric|min:0',
-            'candidate_name' => 'nullable|string|max:255',
+            'candidate_name' => 'required|string|max:255',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $result->update([
-            'ashon_id' => $request->ashon_id,
             'centar_id' => $request->centar_id,
+            'marka_id' => $request->marka_id,
             'total_vote' => $request->total_vote,
             'candidate_name' => $request->candidate_name,
         ]);

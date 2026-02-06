@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->unsignedBigInteger('centar_id')->nullable();
-            $table->unsignedBigInteger('marka_id')->nullable();
+            $table->unsignedBigInteger('ashon_id')->nullable();
+            $table->foreign('centar_id')->references('id')->on('centars')->onDelete('set null');
+            $table->foreign('ashon_id')->references('id')->on('ashons')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
 

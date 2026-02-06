@@ -21,7 +21,7 @@ class User extends Authenticatable
         'image',
         'phone',
         'centar_id',
-        'marka_id',
+        'ashon_id',
     ];
 
     protected $hidden = [
@@ -42,12 +42,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Centars::class, 'centar_id');
     }
-
-    public function marka(): BelongsTo
-    {
-        return $this->belongsTo(Marka::class, 'marka_id');
-    }
-
     public function results(): HasMany
     {
         return $this->hasMany(Result::class);

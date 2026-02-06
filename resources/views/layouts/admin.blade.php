@@ -10,7 +10,7 @@
 <body class="bg-gray-100">
     <div class="flex h-screen overflow-hidden">
         <!-- Mobile Menu Overlay -->
-        <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden"></div>
+        <div id="mobileMenuOverlay" class="fixed inset-0 bg-opacity-50 z-20 hidden lg:hidden"></div>
 
         <!-- Sidebar -->
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 w-64 bg-gray-800 text-white shrink-0 transition-transform duration-300 ease-in-out z-30">
@@ -26,9 +26,9 @@
                 <a href="{{ route('admin.dashboard') }}" class="block py-2.5 px-4 hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-700' : '' }}">
                     Dashboard
                 </a>
-                <a href="{{ route('admin.ashons.index') }}" class="block py-2.5 px-4 hover:bg-gray-700 {{ request()->routeIs('admin.ashons.*') ? 'bg-gray-700' : '' }}">
+                {{-- <a href="{{ route('admin.ashons.index') }}" class="block py-2.5 px-4 hover:bg-gray-700 {{ request()->routeIs('admin.ashons.*') ? 'bg-gray-700' : '' }}">
                     Ashons
-                </a>
+                </a> --}}
                 <a href="{{ route('admin.centars.index') }}" class="block py-2.5 px-4 hover:bg-gray-700 {{ request()->routeIs('admin.centars.*') ? 'bg-gray-700' : '' }}">
                     Centars
                 </a>

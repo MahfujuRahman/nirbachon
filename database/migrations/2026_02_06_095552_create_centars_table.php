@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('centars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ashon_id')->constrained('ashons')->onDelete('cascade')->default(1);
+            $table->unsignedBigInteger('ashon_id')->default(1);
             $table->string('title');
             $table->string('address');
             $table->timestamps();
+
+            $table->foreign('ashon_id')->references('id')->on('ashons')->onDelete('cascade');
         });
     }
 

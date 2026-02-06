@@ -25,7 +25,7 @@
                     <div class="mb-2">
                         <p class="text-xs text-gray-500">ID: {{ $centar->id }}</p>
                         <p class="font-semibold text-gray-900">{{ $centar->title }}</p>
-                        <p class="text-sm text-blue-600 mt-1">{{ $centar->ashon->title }}</p>
+                        {{-- <p class="text-sm text-blue-600 mt-1">{{ $centar->ashon->title }}</p> --}}
                         <p class="text-xs text-gray-500 mt-1">{{ $centar->address }}</p>
                     </div>
                     <div class="flex space-x-2 mt-3">
@@ -52,7 +52,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ashon</th>
+                        {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ashon</th> --}}
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -62,7 +62,7 @@
                     @forelse($centars as $centar)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $centar->id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $centar->ashon->title }}</td>
+                            {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $centar->ashon->title }}</td> --}}
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $centar->title }}</td>
                             <td class="px-6 py-4 text-sm text-gray-500">{{ $centar->address }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

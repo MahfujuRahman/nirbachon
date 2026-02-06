@@ -26,12 +26,16 @@ class CentarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ashon_id' => 'required|exists:ashons,id',
+            // 'ashon_id' => 'required|exists:ashons,id',
             'title' => 'required|string|max:255',
             'address' => 'required|string|max:255',
         ]);
 
-        Centars::create($request->all());
+        Centars::create([
+            'ashon_id' => 1,
+            'title' => $request->title,
+            'address' => $request->address,
+        ]);
 
         return redirect()->route('admin.centars.index')->with('success', 'Centar created successfully.');
     }
@@ -50,7 +54,11 @@ class CentarController extends Controller
             'address' => 'required|string|max:255',
         ]);
 
-        $centar->update($request->all());
+        $centar->update([
+            'ashon_id' => 1,
+            'title' => $request->title,
+            'address' => $request->address,
+        ]);
 
         return redirect()->route('admin.centars.index')->with('success', 'Centar updated successfully.');
     }

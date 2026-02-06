@@ -3,73 +3,122 @@
 @section('title', 'Agent Dashboard')
 
 @section('content')
-<div class="mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">My Results</h2>
-    <p class="text-gray-600">Manage your uploaded voting results</p>
-</div>
+<div class="max-w-6xl mx-auto">
+    <div class="mb-8 flex justify-between items-center">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800">My Voting Results</h2>
+            <p class="text-gray-600 mt-1">Manage your uploaded voting results</p>
+        </div>
+        <a href="{{ route('agent.results.create') }}"
+           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Upload New Result
+        </a>
+    </div>
 
-<div class="bg-white shadow-lg rounded-lg overflow-hidden">
     @forelse($results as $result)
-        <div class="border-b border-gray-200 last:border-b-0 p-6 hover:bg-gray-50 transition">
-            <div class="flex justify-between items-start mb-4">
-                <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ $result->marka->title }}</h3>
-                    <div class="mt-2 space-y-1">
-                        <p class="text-sm text-gray-600">
-                            <span class="font-medium">Ashon:</span> {{ $result->ashon?->title ?? 'N/A' }}
-                        </p>
-                        <p class="text-sm text-gray-600">
-                            <span class="font-medium">Centar:</span> {{ $result->centar->title }}
-                        </p>
-                        <p class="text-sm text-gray-600">
-                            <span class="font-medium">Total Votes:</span>
-                            <span class="text-lg font-bold text-blue-600">{{ number_format($result->total_vote) }}</span>
-                        </p>
-                        <p class="text-xs text-gray-500">
-                            Uploaded: {{ $result->created_at->format('M d, Y h:i A') }}
-                        </p>
+        <div class="bg-white shadow-lg rounded-xl border border-gray-200 mb-6 overflow-hidden hover:shadow-xl transition-shadow">
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {{ $result->marka->title }}
+                </h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Candidate</p>
+                            <p class="font-semibold text-gray-900">{{ $result->candidate_name ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Centar</p>
+                            <p class="font-semibold text-gray-900">{{ $result->centar->title }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Total Votes</p>
+                            <p class="text-2xl font-bold text-blue-600">{{ number_format($result->total_vote) }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Uploaded</p>
+                            <p class="font-semibold text-gray-900">{{ $result->created_at->format('M d, Y') }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex space-x-2">
+
+                @if($result->images->count() > 0)
+                    <div class="border-t pt-4">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Images ({{ $result->images->count() }})
+                        </h4>
+                        <div class="flex space-x-2 overflow-x-auto">
+                            @foreach($result->images as $image)
+                                <img src="{{ asset('storage/' . $image->image) }}" alt="Result Image"
+                                     class="w-20 h-20 object-cover rounded-lg border border-gray-300 flex-shrink-0">
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="mt-4 flex justify-end">
                     <a href="{{ route('agent.results.edit', $result) }}"
-                       class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+                       class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
                         Edit
                     </a>
                 </div>
             </div>
-
-            @if($result->images->count() > 0)
-                <div class="mt-4">
-                    <h4 class="text-sm font-medium text-gray-700 mb-2">Uploaded Images:</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        @foreach($result->images as $image)
-                            <img src="{{ asset('storage/' . $image->image) }}" alt="Result Image"
-                                 class="w-full h-32 object-cover rounded-lg border border-gray-300">
-                        @endforeach
-                    </div>
-                </div>
-            @endif
         </div>
     @empty
-        <div class="p-8 text-center text-gray-500">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white shadow-lg rounded-xl p-12 text-center">
+            <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No results uploaded</h3>
-            <p class="mt-1 text-sm text-gray-500">Get started by uploading a new result.</p>
+            <h3 class="mt-4 text-lg font-medium text-gray-900">No results uploaded yet</h3>
+            <p class="mt-2 text-gray-500">Get started by uploading your first voting result.</p>
             <div class="mt-6">
                 <a href="{{ route('agent.results.create') }}"
-                   class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
                     Upload New Result
                 </a>
             </div>
         </div>
     @endforelse
-</div>
 
-@if($results->hasPages())
-    <div class="mt-6">
-        {{ $results->links() }}
-    </div>
-@endif
+    @if($results->hasPages())
+        <div class="mt-8 flex justify-center">
+            {{ $results->links() }}
+        </div>
+    @endif
+</div>
 @endsection

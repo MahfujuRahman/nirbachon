@@ -3,7 +3,7 @@
 @section('header', 'Create Agent')
 
 @section('content')
-<div class="max-w-2xl">
+<div class="max-w-8xl">
     <div class="bg-white shadow-lg rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-semibold">Create New Agent</h3>
@@ -53,26 +53,13 @@
             </div>
 
             <div class="mb-4">
-                <label for="centar_id" class="block text-sm font-medium text-gray-700 mb-2">Centar (Optional)</label>
+                <label for="centar_id" class="block text-sm font-medium text-gray-700 mb-2">Centar</label>
                 <select name="centar_id" id="centar_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Select Centar</option>
                     @foreach($centars as $centar)
                         <option value="{{ $centar->id }}" {{ old('centar_id') == $centar->id ? 'selected' : '' }}>
                             {{ $centar->title }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="marka_id" class="block text-sm font-medium text-gray-700 mb-2">Marka (Optional)</label>
-                <select name="marka_id" id="marka_id"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Select Marka</option>
-                    @foreach($markas as $marka)
-                        <option value="{{ $marka->id }}" {{ old('marka_id') == $marka->id ? 'selected' : '' }}>
-                            {{ $marka->title }}
                         </option>
                     @endforeach
                 </select>

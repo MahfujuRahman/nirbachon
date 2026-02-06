@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with(['centar', 'marka'])->where('role', Roles::AGENT)->latest()->paginate(20);
+        $users = User::with(['centar'])->where('role', Roles::AGENT)->latest()->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
@@ -33,7 +33,6 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
             'centar_id' => 'nullable|exists:centars,id',
-            'marka_id' => 'nullable|exists:markas,id',
         ]);
 
         User::create([
@@ -42,7 +41,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'centar_id' => $request->centar_id,
-            'marka_id' => $request->marka_id,
+            'ashon_id' => 1,
             'role' => Roles::AGENT,
         ]);
 
@@ -64,7 +63,6 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
             'centar_id' => 'nullable|exists:centars,id',
-            'marka_id' => 'nullable|exists:markas,id',
         ]);
 
         $data = [
@@ -72,7 +70,7 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'centar_id' => $request->centar_id,
-            'marka_id' => $request->marka_id,
+            'ashon_id' => 1,
         ];
 
         if ($request->filled('password')) {

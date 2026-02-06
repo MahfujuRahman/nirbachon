@@ -3,9 +3,9 @@
 @section('header', 'Dashboard')
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <!-- Total Ashons -->
-    <div class="bg-white overflow-hidden shadow-lg rounded-lg">
+    {{-- <div class="bg-white overflow-hidden shadow-lg rounded-lg">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Total Centars -->
     <div class="bg-white overflow-hidden shadow-lg rounded-lg">
@@ -104,8 +104,8 @@
     <div class="bg-white shadow-lg rounded-lg p-6">
         <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="{{ route('admin.ashons.create') }}" class="block p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition">
-                <p class="font-medium text-blue-700">Create Ashon</p>
+            <a href="{{ route('admin.results.index') }}" class="block p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition">
+                <p class="font-medium text-blue-700">See Results</p>
             </a>
             <a href="{{ route('admin.centars.import') }}" class="block p-4 bg-green-50 hover:bg-green-100 rounded-lg text-center transition">
                 <p class="font-medium text-green-700">Import Centars</p>

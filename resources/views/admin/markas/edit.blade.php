@@ -3,7 +3,7 @@
 @section('header', 'Edit Marka')
 
 @section('content')
-<div class="max-w-2xl">
+<div class="max-w-8xl">
     <div class="bg-white shadow-lg rounded-lg">
         <div class="px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-semibold">Edit Marka</h3>
