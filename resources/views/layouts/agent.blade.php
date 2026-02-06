@@ -14,8 +14,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 space-y-3 sm:space-y-0">
                     <div>
-                        <h1 class="text-xl md:text-2xl font-bold text-gray-800">Agent Panel</h1>
-                        <p class="text-xs md:text-sm text-gray-600">{{ auth()->user()->marka?->title ?? 'No Marka Assigned' }}</p>
+                        <h1 class="text-xl md:text-2xl font-bold text-gray-800">{{ auth()->user()->name }}</h1>
+                        <p class="text-xs md:text-sm text-gray-600">{{ auth()->user()->centar?->title ?? 'No Marka Assigned' }}</p>
                     </div>
                     <div class="flex items-center space-x-2 md:space-x-4">
                         <a href="{{ route('agent.results.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-4 py-2 rounded-lg transition duration-200 text-sm md:text-base whitespace-nowrap">

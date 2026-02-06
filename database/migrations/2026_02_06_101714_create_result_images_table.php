@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('result_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('result_id')->constrained('results')->onDelete('cascade');
+            $table->foreignId('ashon_id')->constrained('ashons')->onDelete('cascade')->default(1);
+            $table->foreignId('centar_id')->constrained('centars')->onDelete('cascade');
+            $table->foreignId('marka_id')->constrained('markas')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('image');
             $table->timestamps();
         });

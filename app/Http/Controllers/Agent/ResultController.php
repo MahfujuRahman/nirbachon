@@ -59,6 +59,10 @@ class ResultController extends Controller
 
                 ResultImage::create([
                     'result_id' => $result->id,
+                    'ashon_id' => 1,
+                    'centar_id' => $request->centar_id,
+                    'marka_id' => $request->marka_id,
+                    'user_id' => $agent->id,
                     'image' => $path,
                 ]);
             }

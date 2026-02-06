@@ -34,9 +34,78 @@ class ResultController extends Controller
             $query->where('marka_id', $request->marka_id);
         }
 
+        // Get centar submission statistics first
+        $centarsWithResults = Result::select('centar_id')
+            ->distinct()
+            ->pluck('centar_id')
+            ->toArray();
+
+        // Check if filtering by submission status
+        $showCentarList = false;
+        $filteredCentars = collect();
+
+        if ($request->filled('submitted_centars') && $request->submitted_centars !== 'all') {
+            $showCentarList = true;
+
+            if ($request->submitted_centars === 'submit') {
+                // Show centars that have submitted
+                $filteredCentars = $centars->filter(function($centar) use ($centarsWithResults) {
+                    return in_array($centar->id, $centarsWithResults);
+                });
+            } elseif ($request->submitted_centars === 'nonsubmit') {
+                // Show centars that haven't submitted
+                $filteredCentars = $centars->filter(function($centar) use ($centarsWithResults) {
+                    return !in_array($centar->id, $centarsWithResults);
+                });
+            }
+        }
+
         $results = $query->latest()->paginate(20);
 
-        return view('admin.results.index', compact('results', 'ashons', 'centars', 'markas'));
+        // Get detailed centar statistics
+        $centarsWithResults = Result::select('centar_id')
+            ->distinct()
+            ->pluck('centar_id')
+            ->toArray();
+
+        $centarStats = $centars->map(function ($centar) use ($centarsWithResults) {
+            $hasResults = in_array($centar->id, $centarsWithResults);
+            $resultCount = Result::where('centar_id', $centar->id)->count();
+
+            return [
+                'id' => $centar->id,
+                'title' => $centar->title,
+                'address' => $centar->address,
+                'has_results' => $hasResults,
+                'result_count' => $resultCount,
+            ];
+        });
+
+        // Create a quick lookup array for centar result counts and votes
+        $centarResultData = [];
+        foreach ($centars as $centar) {
+            $centarResultData[$centar->id] = [
+                'count' => Result::where('centar_id', $centar->id)->count(),
+                'votes' => Result::where('centar_id', $centar->id)->sum('total_vote'),
+            ];
+        }
+
+        $submittedCount = $centarStats->where('has_results', true)->count();
+        $notSubmittedCount = $centarStats->where('has_results', false)->count();
+
+        return view('admin.results.index', compact(
+            'results',
+            'ashons',
+            'centars',
+            'markas',
+            'centarStats',
+            'submittedCount',
+            'notSubmittedCount',
+            'showCentarList',
+            'filteredCentars',
+            'centarsWithResults',
+            'centarResultData'
+        ));
     }
 
     public function show(Result $result)

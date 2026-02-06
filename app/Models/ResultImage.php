@@ -9,6 +9,10 @@ class ResultImage extends Model
 {
     protected $fillable = [
         'result_id',
+        'ashon_id',
+        'centar_id',
+        'marka_id',
+        'user_id',
         'image',
     ];
 
