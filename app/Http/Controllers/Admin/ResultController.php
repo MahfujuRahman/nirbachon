@@ -111,7 +111,15 @@ class ResultController extends Controller
     public function show(Result $result)
     {
         $result->load(['ashon', 'centar', 'marka', 'user', 'images']);
-        return view('admin.results.show', compact('result'));
+
+        // Get other images by the same agent (images without result_id)
+        $otherImages = \App\Models\ResultImage::whereNull('result_id')
+            ->where('user_id', $result->user_id)
+            ->with(['ashon', 'centar', 'marka'])
+            ->latest()
+            ->get();
+
+        return view('admin.results.show', compact('result', 'otherImages'));
     }
 
     public function destroy(Result $result)

@@ -86,7 +86,7 @@
                                     <img src="{{ asset('storage/' . $image->image) }}"
                                          alt="Result Image"
                                          class="w-full h-48 object-cover rounded-lg border-2 border-gray-200 hover:border-blue-500 transition cursor-pointer">
-                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition rounded-lg flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition rounded-lg flex items-center justify-center">
                                         <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
                                         </svg>
@@ -103,6 +103,46 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         <p class="mt-2 text-sm text-gray-500">No images uploaded for this result</p>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Other Images Section (Not linked to this result) -->
+            @if($otherImages->count() > 0)
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                <svg class="w-6 h-6 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                Other Images by {{ $result->user->name }}
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-1">Additional images not linked to specific results</p>
+                        </div>
+                        <span class="px-3 py-1 bg-teal-100 text-teal-700 font-semibold rounded-full text-sm">
+                            {{ $otherImages->count() }} {{ $otherImages->count() === 1 ? 'Image' : 'Images' }}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        @foreach($otherImages as $image)
+                            <div class="relative group border-2 border-teal-200 rounded-lg overflow-hidden">
+                                <a href="{{ asset('storage/' . $image->image) }}" target="_blank">
+                                    <img src="{{ asset('storage/' . $image->image) }}"
+                                         alt="Other Image"
+                                         class="w-full h-48 object-cover hover:opacity-90 transition cursor-pointer">
+                                    <div class="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
+                                    <p class="text-xs text-white font-semibold truncate">{{ $image->centar->title }}</p>
+                                    <p class="text-xs text-gray-300 truncate">{{ $image->marka->title }}</p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @endif
